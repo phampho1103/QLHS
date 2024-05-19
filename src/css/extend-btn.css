@@ -1,0 +1,9 @@
+.btn-choose {
+  width: 40%;
+  height: 80px;
+}
+
+.btn-center {
+  display: flex;
+  justify-content: center;
+}
