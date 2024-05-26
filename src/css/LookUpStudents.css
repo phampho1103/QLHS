@@ -44,3 +44,9 @@ th {
   width: 70%;
   padding-left: 10px;
 }
+
+.no-student-message {
+  font-size: 100px; /* Hoặc bất kỳ kích thước nào bạn muốn */
+  font-weight: bold; /* Tùy chọn, để làm chữ đậm */
+  text-align: center; /* Căn giữa nội dung */
+}

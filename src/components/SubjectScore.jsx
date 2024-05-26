@@ -1,9 +1,15 @@
 import "../css/LookUpStudents.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { db, collection, doc, getDocs , updateDoc } from "../firebaseConfig";
 
 function LookUpStudents() {
+  const [displayClassInfo, setDisplayClassInfo] = useState({
+    className: "",
+    subject: "",
+    semester: "",
+  });
+  
   const [check, setCheck] = useState(null);
-  // const [isSearchClicked, setIsSearchClicked] = useState(false);
   const [classInfo, setClassInfo] = useState({
     className: "",
     subject: "",
@@ -14,8 +20,8 @@ function LookUpStudents() {
     fullName: "",
     score15: "",
     score1tiet: "",
-    average: "",
   });
+  const [currentStudentIndex, setCurrentStudentIndex] = useState(0);
 
   const handleClassInfoChange = (e) => {
     const { name, value } = e.target;
@@ -33,28 +39,93 @@ function LookUpStudents() {
     }));
   };
 
-  const handleBlur = () => {
+  useEffect(() => {
+    // Khi nhấn nút "HIỂN THỊ BẢNG ĐIỂM" hoặc khi classInfo thay đổi, lấy dữ liệu điểm
+    if (check && classInfo.className && classInfo.subject && classInfo.semester) {
+      fetchStudentScores();
+    }
+  }, [check, classInfo]); 
+
+  const fetchStudentScores = async () => {
+    const classCollectionRef = collection(
+      db,
+      `qlhs/danhsachlop/danhsachlop/${classInfo.className}/danhsach${classInfo.className}`
+    );
+    const snapshot = await getDocs(classCollectionRef);
+    const studentList = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    setStudents(studentList);
+  };
+
+  const fetchStudents = async () => {
+    const classCollectionRef = collection(
+      db,
+      `qlhs/danhsachlop/danhsachlop/${classInfo.className}/danhsach${classInfo.className}`
+    );
+    const snapshot = await getDocs(classCollectionRef);
+    const studentList = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    setStudents(studentList);
+    setCurrentStudentIndex(0);
+  };
+
+  const handleBlur = async () => {
     if (
       studentData.fullName &&
-      studentData.score15 &&
-      studentData.score1tiet 
+      studentData.score15 !== "" && // Kiểm tra cả hai điểm đã được nhập
+      studentData.score1tiet !== "" &&
+      classInfo.className &&
+      classInfo.subject &&
+      classInfo.semester
     ) {
-      setStudents((prevStudents) => [...prevStudents, studentData]);
-      setStudentData({
-        fullName: "",
-        score15: "",
-        score1tiet: "",
-      });
+      const studentName = studentData.fullName.toLowerCase();
+      const existingStudent = students.find((s) => s.name && s.name.toLowerCase() === studentName);
+
+      if (existingStudent) {
+        const studentDocRef = doc(
+          db,
+          `qlhs/danhsachlop/danhsachlop/${classInfo.className}/danhsach${classInfo.className}`,
+          existingStudent.id
+        );
+
+        const score15FieldName = `${classInfo.subject}_15p_${classInfo.semester}`;
+        const score1tietFieldName = `${classInfo.subject}_1t_${classInfo.semester}`;
+        const averageFieldName = `${classInfo.subject}_tb_${classInfo.semester}`;
+        const score15 = parseFloat(studentData.score15);
+        const score1tiet = parseFloat(studentData.score1tiet);
+        const average = (score15 + score1tiet) / 2;
+
+        const dataToUpdate = {
+          [score15FieldName]: score15,
+          [score1tietFieldName]: score1tiet,
+          [averageFieldName]: average, // Lưu điểm trung bình
+        };
+
+        if (existingStudent[score15FieldName] || existingStudent[score1tietFieldName]) {
+          alert(
+            `Học sinh ${studentData.fullName} của lớp ${classInfo.className} đã có điểm môn ${classInfo.subject} học kì ${classInfo.semester}. Điểm sẽ được ghi đè.`
+          );
+        }
+
+        await updateDoc(studentDocRef, dataToUpdate);
+        setCurrentStudentIndex(currentStudentIndex + 1);
+        fetchStudents();
+        alert("Đã nhập điểm thành công");
+      } else {
+        alert(`Không có học sinh ${studentData.fullName} của lớp ${classInfo.className}.`);
+      }
+
+      setStudentData({ fullName: "", score15: "", score1tiet: "" });
+    } else {
+      alert("Vui lòng nhập đầy đủ họ tên và cả hai điểm 15' và 1 tiết.");
     }
   };
 
-  const handlePrintBt1 = () => {
-    // setCheck(true);
-    // window.print();
-  };
+  const handleAddStudent = async () => { 
+    await handleBlur(); // Gọi hàm handleBlur để xử lý ghi điểm
+    fetchStudents(); // Tải lại danh sách học sinh sau khi thêm điểm
+  };// Xử lý sự kiện khi nhấn nút "Thêm học sinh"
   const handlePrintBt2 = () => {
     setCheck(true);
-    // window.print();
+    setDisplayClassInfo(classInfo); // Cập nhật giá trị hiển thị
   };
 
   return (
@@ -74,11 +145,15 @@ function LookUpStudents() {
                 <option value="" disabled>
                   Chọn lớp
                 </option>
-                <option value="12A1">12A1</option>
-                <option value="12A2">12A2</option>
-                <option value="12A3">12A3</option>
-                <option value="12A4">12A4</option>
-                <option value="12A5">12A5</option>
+                <option value="10a1">10A1</option>
+                <option value="10a2">10A2</option>
+                <option value="10a3">10A3</option>
+                <option value="10a4">10A4</option>
+                <option value="11a1">11A1</option>
+                <option value="11a2">11A2</option>
+                <option value="11a3">11A3</option>
+                <option value="12a1">12A1</option>
+                <option value="12a2">12A2</option>
               </select>
             </div>
             <div className="form-input-item-half">
@@ -113,8 +188,11 @@ function LookUpStudents() {
                 <option value="ly">Lý</option>
                 <option value="hoa">Hóa</option>
                 <option value="sinh">Sinh</option>
-                <option value="anh">Anh</option>
+                <option value="su">Sử</option>
+                <option value="dia">Địa</option>
                 <option value="van">Văn</option>
+                <option value="daoduc">Đạo Đức</option>
+                <option value="theduc">Thể Dục</option>
               </select>
             </div>
           </div>
@@ -123,69 +201,63 @@ function LookUpStudents() {
         </div>
       </form>
       <table
-        className="tg table"
-        style={{ tableLayout: "fixed", width: "100%" }}
-      >
-        <thead>
-          <tr>
-            <th className="tg-b0es">STT</th>
-            <th className="tg-b0es">Họ Tên</th>
-            <th className="tg-b0es">Điểm 15'</th>
-            <th className="tg-b0es">Điểm 1 tiết</th>
-          </tr>
-        </thead>
-        <tbody>
-          {students.map((student, index) => (
-            <tr key={index}>
-              <td className="tg-wk8r">{index + 1}</td>
-              <td className="tg-oe15">{student.fullName}</td>
-              <td className="tg-oe15">{student.score15}</td>
-              <td className="tg-oe15">{student.score1tiet}</td>
-            </tr>
-          ))}
-          {/* Ô nhập liệu cho học sinh mới */}
-          <tr>
-            <td className="tg-wk8r">{students.length + 1}</td>
-            <td className="tg-oe15">
-              <input
-                type="text"
-                name="fullName"
-                value={studentData.fullName}
-                onChange={handleStudentDataChange}
-                onBlur={handleBlur}
-              />
-            </td>
-            <td className="tg-oe15">
-              <input
-                type="text"
-                name="score15"
-                value={studentData.score15}
-                onChange={handleStudentDataChange}
-                onBlur={handleBlur}
-              />
-            </td>
-            <td className="tg-oe15">
-              <input
-                type="text"
-                name="score1tiet"
-                value={studentData.score1tiet}
-                onChange={handleStudentDataChange}
-                onBlur={handleBlur}
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div className="btn-group">
-        <button
-          className="btn btn-green"
-          type="button"
-          onClick={handlePrintBt1}
-          style={{ backgroundColor: "#0d6efd" }}
-        >
-          THÊM HỌC SINH
-        </button>
-      </div>
+      className="tg table"
+      style={{ tableLayout: "fixed", width: "100%" }}
+    >
+      <thead>
+<tr>
+<th className="tg-b0es">STT</th>
+<th className="tg-b0es">Họ Tên</th>
+<th className="tg-b0es">Điểm 15'</th>
+<th className="tg-b0es">Điểm 1 tiết</th>
+</tr>
+</thead>
+      
+      <tbody>
+      {students.slice(0, currentStudentIndex + 1).map((student, index) => (
+        <tr key={index}>
+          <td className="tg-wk8r">{index + 1}</td>
+          <td className="tg-oe15">
+            <input
+              type="text"
+              name="fullName"
+              value={studentData.fullName}
+              onChange={handleStudentDataChange}
+              // onBlur={handleBlur} // Xóa onBlur
+            />
+          </td>
+          <td className="tg-oe15">
+            <input
+              type="text"
+              name="score15"
+              value={studentData.score15}
+              onChange={handleStudentDataChange}
+              // onBlur={handleBlur} // Xóa onBlur
+            />
+          </td>
+          <td className="tg-oe15">
+            <input
+              type="text"
+              name="score1tiet"
+              value={studentData.score1tiet}
+              onChange={handleStudentDataChange}
+              // onBlur={handleBlur} // Xóa onBlur
+            />
+          </td>
+        </tr>
+      ))}
+    </tbody>
+    </table>
+    <div className="btn-group">
+    <button
+      className="btn btn-green"
+      type="button"
+      onClick={handleAddStudent} // Sửa lại onClick
+      style={{ backgroundColor: "#0d6efd" }}
+    >
+      Nhập điểm học sinh này
+    </button>
+  </div>
       <div className="btn-group">
         <button
           className="btn btn-green"
@@ -193,27 +265,28 @@ function LookUpStudents() {
           onClick={handlePrintBt2}
           style={{ backgroundColor: "#0d6efd" }}
         >
-          HIỂN THỊ BẢNG ĐIỂM
+          Hiển thị bảng điểm của lớp hiện tại
         </button>
       </div>
       <br></br>
       <br></br>
+
       <form>
-      <div className="form-wrap">
-        <div className="form-title">
-          <h3>Bang diem mon hoc</h3>
-        </div>
-        <div className="form-title">
-          <h3>Lop</h3>
-        </div>
-        <div className="form-title">
-          <h3>Hoc ki</h3>
-        </div>
-        <div className="form-title">
-          <h3>Mon</h3>
-        </div>
-        </div>
-        </form>
+  <div className="form-wrap">
+    <div className="form-title">
+      <h3>Bảng điểm môn học</h3>
+    </div>
+    <div className="form-title">
+      <h3>Lớp: {displayClassInfo.className}</h3> 
+    </div>
+    <div className="form-title">
+      <h3>Học kì: {displayClassInfo.semester}</h3> 
+    </div>
+    <div className="form-title">
+      <h3>Môn: {displayClassInfo.subject}</h3> 
+    </div>
+  </div>
+</form>
 
       {check && (
         <div className="result">
@@ -241,34 +314,23 @@ function LookUpStudents() {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td className="tg-wk8r">1</td>
-                  <td className="tg-oe15">Nguyen Ngoc Sinh</td>
-                  <td className="tg-oe15">10</td>
-                  <td className="tg-oe15">10</td>
-                  <td className="tg-oe15">{(8 + 9 * 2 + 10 * 3) / 6}</td>
-                </tr>
-                <tr>
-                  <td className="tg-wk8r">1</td>
-                  <td className="tg-oe15">Nguyen Ngoc Sinh</td>
-                  <td className="tg-oe15">8</td>
-                  <td className="tg-oe15">9</td>
-                  <td className="tg-oe15">{(8 + 9 * 2 + 10 * 3) / 6}</td>
-                </tr>
-                <tr>
-                  <td className="tg-wk8r">1</td>
-                  <td className="tg-oe15">Nguyen Ngoc Sinh</td>
-                  <td className="tg-oe15">8</td>
-                  <td className="tg-oe15">9</td>
-                  <td className="tg-oe15">{(8 + 9 * 2 + 10 * 3) / 6}</td>
-                </tr>
-                <tr>
-                  <td className="tg-wk8r">1</td>
-                  <td className="tg-oe15">Nguyen Ngoc Sinh</td>
-                  <td className="tg-oe15">8</td>
-                  <td className="tg-oe15">9</td>
-                  <td className="tg-oe15">{(8 + 9 * 2 + 10 * 3) / 6}</td>
-                </tr>
+                {students.map((student, index) => {
+                  const score15FieldName = `${classInfo.subject}_15p_${classInfo.semester}`;
+                  const score1tietFieldName = `${classInfo.subject}_1t_${classInfo.semester}`;
+                  const score15 = student[score15FieldName] || ""; // Lấy điểm 15'
+                  const score1tiet = student[score1tietFieldName] || ""; // Lấy điểm 1 tiết
+                  const average = (parseFloat(score15) + parseFloat(score1tiet)) / 2 || ""; // Tính điểm trung bình
+
+                  return (
+                    <tr key={index}>
+                      <td className="tg-wk8r">{index + 1}</td>
+                      <td className="tg-oe15">{student.name}</td>
+                      <td className="tg-oe15">{score15}</td>
+                      <td className="tg-oe15">{score1tiet}</td>
+                      <td className="tg-oe15">{average}</td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

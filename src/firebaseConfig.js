@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, getDocs ,query, where, collectionGroup, doc} from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs ,query, where, collectionGroup, doc , updateDoc } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -30,4 +30,4 @@ const addStudent = async (studentData) => {
   }
 };
 
-export { db, collection, addDoc, getDocs , query , where, collectionGroup , doc };
+export { db, collection, addDoc, getDocs , query , where, collectionGroup , doc , updateDoc };

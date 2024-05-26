@@ -1,14 +1,13 @@
 import "../css/category.css";
 import avata from "../img/avata.jpg";
 import logout from "../img/logout.png";
-import { Link } from "react-router-dom";
-const Category = () => {
-  return (
+const QuyDinh = () => {
 
-    
+
+  return (
     
     <div className="category">
-      <div className="title">Quản lý học sinh</div>
+      <div className="title">QUY ĐỊNH</div>
       <div className="category-list">
         <ul className="category-list-item">
           <li className="category-item">
@@ -18,7 +17,7 @@ const Category = () => {
           </li>
           <li className="category-item">
             <a href="#" className="category-item-name">
-            <Link to={"/quy-dinh"}>Quy Định</Link>
+              Quy định
             </a>
           </li>
         </ul>
@@ -38,9 +37,7 @@ const Category = () => {
         </ul>
       </div>
     </div>
-
-    
   );
 };
 
-export default Category;
+export default QuyDinh;

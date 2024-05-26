@@ -1,6 +1,7 @@
 import Category from "../components/Category";
 import SubjectReport from "../components/SubjectReport";
 import SubjectScore from "../components/SubjectScore";
+import QuyDinh from "../components/QuyDinh";
 import SemesterReport from "../components/SemesterReport";
 import NavBar from "../components/NavBar";
 import CategoryReport from "../components/CategoryReport";
@@ -13,9 +14,16 @@ const HomePage = () => {
   return (
     <div className="main">
       <Category />
+
+      <Routes>
+            <Route path="/quy-dinh" element={<QuyDinh />} />
+          </Routes>
+
       <div className="content">
         <NavBar />
+        
         <div className="content-body">
+          
           <Routes>
             <Route path="/look-up-student" element={<LookUpStudents />} />
           </Routes>

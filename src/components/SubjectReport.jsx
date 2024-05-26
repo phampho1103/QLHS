@@ -6,16 +6,68 @@ import "../css/main.css";
 import "../css/variable.css";
 import "../css/subjectReport.css";
 
+import { useState, useEffect } from "react";
+import { db, collection, getDocs } from "../firebaseConfig";
+
 const SubjectReport = () => {
+  const [subject, setSubject] = useState("toan"); // Giá trị mặc định là "toán"
+  const [semester, setSemester] = useState("hk1"); // Giá trị mặc định là "hk1"
+  const [reportData, setReportData] = useState([]);
+
+  useEffect(() => {
+    if (subject && semester) {
+      fetchSubjectReport();
+    }
+  }, [subject, semester]);
+
+  const fetchSubjectReport = async () => {
+    const classListRef = collection(db, `qlhs/danhsachlop/danhsachlop`); // Collection chứa danh sách lớp
+    const classListSnapshot = await getDocs(classListRef);
+    const report = [];
+
+    for (const classDoc of classListSnapshot.docs) {
+      const className = classDoc.id; // Lấy tên lớp từ ID của document
+      const classRef = collection(db, `qlhs/danhsachlop/danhsachlop/${className}/danhsach${className}`);
+      const snapshot = await getDocs(classRef);
+      const students = snapshot.docs.map(doc => doc.data());
+
+      const totalStudents = students.length;
+      const passedStudents = students.filter(student => {
+        const score = student[`${subject}_tb_${semester}`];
+        return score !== undefined && score >= 5;
+      }).length;
+
+      const passRate = totalStudents > 0 ? ((passedStudents / totalStudents) * 100).toFixed(2) : 0;
+
+      report.push({
+        className,
+        totalStudents,
+        passedStudents,
+        passRate,
+      });
+    }
+
+    setReportData(report);
+  };
+
+   
+
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    setSubject(formData.get("subject")); // Sửa tên trường
+    setSemester(formData.get("semester")); // Sửa tên trường
+  };
+
   return (
     <>
-      <form method="POST" action="" className="form">
+       <form className="form" onSubmit={handleFormSubmit}> {/* Xóa method và action */}
         <div className="form-wrap">
           <div className="form-title">BÁO CÁO TỔNG KẾT MÔN HỌC</div>
           <div className="form-input-group-half">
             <div className="form-input-item-half">
-              <label htmlFor="type">Môn</label>
-              <select id="type" name="TenLop">
+            <label htmlFor="subject">Môn</label> {/* Sửa htmlFor */}
+            <select id="subject" name="subject" value={subject} onChange={(e) => setSubject(e.target.value)}> {/* Sửa id, name và value */}
                 <option defaultValue="" disabled>
                   Chọn môn
                 </option>
@@ -23,15 +75,18 @@ const SubjectReport = () => {
                 <option value="ly">Lý</option>
                 <option value="hoa">Hóa</option>
                 <option value="sinh">Sinh</option>
-                <option value="anh">Anh</option>
+                <option value="su">Sử</option>
+                <option value="dia">Địa</option>
                 <option value="van">Văn</option>
+                <option value="daoduc">Đạo Đức</option>
+                <option value="theduc">Thể Dục</option>
               </select>
             </div>
           </div>
           <div className="form-input-group-half">
             <div className="form-input-item-half">
-              <label htmlFor="type">Học kỳ</label>
-              <select id="type" name="MonHoc">
+            <label htmlFor="semester">Học kỳ</label> {/* Sửa htmlFor */}
+            <select id="semester" name="semester" value={semester} onChange={(e) => setSemester(e.target.value)}> {/* Sửa id, name và value */}
                 <option defaultValue="" disabled>
                   Chọn học kỳ
                 </option>
@@ -45,11 +100,10 @@ const SubjectReport = () => {
           <div className="btn-group">
             <button
               className="btn btn-blue"
-              disabled
               id="btn-add"
               type="submit"
             >
-              Tìm kiếm
+              THỐNG KÊ
             </button>
           </div>
         </div>
@@ -75,42 +129,16 @@ const SubjectReport = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td className="tg-wk8r">1</td>
-                <td className="tg-oe15">12A1</td>
-                <td className="tg-oe15">33</td>
-                <td className="tg-oe15">44</td>
-                <td className="tg-oe15">{33 / 44 + "%"}</td>
-              </tr>
-              <tr>
-                <td className="tg-wk8r">2</td>
-                <td className="tg-oe15">12A2</td>
-                <td className="tg-oe15">33</td>
-                <td className="tg-oe15">44</td>
-                <td className="tg-oe15">{33 / 44 + "%"}</td>
-              </tr>
-              <tr>
-                <td className="tg-wk8r">3</td>
-                <td className="tg-oe15">12A3</td>
-                <td className="tg-oe15">33</td>
-                <td className="tg-oe15">44</td>
-                <td className="tg-oe15">{33 / 44 + "%"}</td>
-              </tr>
-              <tr>
-                <td className="tg-wk8r">4</td>
-                <td className="tg-oe15">12A4</td>
-                <td className="tg-oe15">33</td>
-                <td className="tg-oe15">44</td>
-                <td className="tg-oe15">{33 / 44 + "%"}</td>
-              </tr>
-              <tr>
-                <td className="tg-wk8r">5</td>
-                <td className="tg-oe15">12A5</td>
-                <td className="tg-oe15">33</td>
-                <td className="tg-oe15">44</td>
-                <td className="tg-oe15">{33 / 44 + "%"}</td>
-              </tr>
-            </tbody>
+          {reportData.map((classData, index) => (
+            <tr key={index}>
+              <td className="tg-wk8r">{index + 1}</td>
+              <td className="tg-oe15">{classData.className}</td>
+              <td className="tg-oe15">{classData.totalStudents}</td>
+              <td className="tg-oe15">{classData.passedStudents}</td>
+              <td className="tg-oe15">{classData.passRate}%</td>
+            </tr>
+          ))}
+        </tbody>
           </table>
         </div>
       </div>
