@@ -10,22 +10,23 @@
 # Thành viên nhóm
 | STT    | MSSV          | Họ và Tên              |Chức Vụ    |Email                   |
 | ------ |:-------------:| ----------------------:|----------:|-------------------------:
-| 1      | 21522456      | Phạm Phố               |Nhóm trưởng|19521676@gm.uit.edu.vn   |
-| 2      | 19521383      | Võ Phạm Duy Đức        |Thành viên |19521383@gm.uit.edu.vn   |
-| 3      | 19521326      | Trịnh Công Danh        |Thành viên |19521326@gm.uit.edu.vn   |
-| 4      | 19521482      | Trần Vĩ Hào            |Thành viên |19521482@gm.uit.edu.vn   |
-| 5      | 19521270      | Trương Quốc Bình       |Thành viên |19521270@gm.uit.edu.vn   |
+| 1      | 21522456      | Phạm Phố               |Nhóm trưởng|21522456@gm.uit.edu.vn   |
+| 2      | 20521353      | Nguyễn Văn Hoành       |Thành viên |20521353@gm.uit.edu.vn   |
+| 3      | 20521835      | Nguyễn Ngọc Sinh       |Thành viên |20521835@gm.uit.edu.vn   |
+| 4      | 21522473      | Nguyễn Hoàng Phúc      |Thành viên |21522473@gm.uit.edu.vn   |
+| 5      | 22520599      | Nguyễn Minh Kha        |Thành viên |22520599@gm.uit.edu.vn   |
+
 
 
 # GIỚI THIỆU MÔN HỌC
 * **Tên môn học:** Nhập môn công nghệ phần mềm
 * **Mã môn học:** SE104
-* **Mã lớp:** SE104.L27.KHCL
-* **Năm học:** HK2 (2020 - 2021)
-* **Giảng viên**: Huỳnh Ngọc Tín
+* **Mã lớp:** SE104.O21
+* **Năm học:** HK2 (2023 - 2024)
+* **Giảng viên**: Đỗ Thị Thanh Tuyền
 
 # ĐỒ ÁN CUỐI KÌ
-* **Đề tài:** Phần mềm quản lý thư viện sách
+* **Đề tài:** Phần mềm quản lý học sinh
 
 <!-- Footer -->
-<p align='center'>Copyright © 2021 - Đỗ Trọng Khánh</p>
+<p align='center'>Copyright © 2021 - Phạm Phố</p>
