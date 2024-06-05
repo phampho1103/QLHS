@@ -1,6 +1,10 @@
 import "../css/LookUpStudents.css";
 import { useState, useEffect } from "react";
+<<<<<<< HEAD
 import { db, collection, doc, getDocs , updateDoc,getDoc } from "../firebaseConfig";
+=======
+import { db, collection, doc, getDocs , updateDoc } from "../firebaseConfig";
+>>>>>>> origin/master
 
 function LookUpStudents() {
   const [displayClassInfo, setDisplayClassInfo] = useState({
@@ -22,10 +26,13 @@ function LookUpStudents() {
     score1tiet: "",
   });
   const [currentStudentIndex, setCurrentStudentIndex] = useState(0);
+<<<<<<< HEAD
   const [subjectList, setSubjectList] = useState([]); // Thêm state này
   const [classList, setClassList] = useState([]); // Define classList and setClassList
 
 
+=======
+>>>>>>> origin/master
 
   const handleClassInfoChange = (e) => {
     const { name, value } = e.target;
@@ -90,6 +97,7 @@ function LookUpStudents() {
           existingStudent.id
         );
 
+<<<<<<< HEAD
                 // Chuyển đổi tên môn học thành không dấu và viết liền
                 let subjectKey = classInfo.subject
                 .normalize("NFD")
@@ -103,6 +111,11 @@ function LookUpStudents() {
     const score15FieldName = `${subjectKey}_15p_${classInfo.semester}`;
     const score1tietFieldName = `${subjectKey}_1t_${classInfo.semester}`;
     const averageFieldName = `${subjectKey}_tb_${classInfo.semester}`;
+=======
+        const score15FieldName = `${classInfo.subject}_15p_${classInfo.semester}`;
+        const score1tietFieldName = `${classInfo.subject}_1t_${classInfo.semester}`;
+        const averageFieldName = `${classInfo.subject}_tb_${classInfo.semester}`;
+>>>>>>> origin/master
         const score15 = parseFloat(studentData.score15);
         const score1tiet = parseFloat(studentData.score1tiet);
         const average = (score15 + score1tiet) / 2;
@@ -142,6 +155,7 @@ function LookUpStudents() {
     setDisplayClassInfo(classInfo); // Cập nhật giá trị hiển thị
   };
 
+<<<<<<< HEAD
   useEffect(() => {
     // Fetch danh sách môn học khi component mount
     const fetchClassList = async () => {
@@ -174,6 +188,8 @@ function LookUpStudents() {
     fetchSubjects(); 
   }, []);
 
+=======
+>>>>>>> origin/master
   return (
     <div className="lookUpStudents">
       <form method="POST" action="" className="form">
@@ -188,12 +204,27 @@ function LookUpStudents() {
                 value={classInfo.className}
                 onChange={handleClassInfoChange}
               >
+<<<<<<< HEAD
                 <option value="" disabled>Chọn lớp</option>
               {classList.map((className, index) => (
                 <option key={index} value={className}>
                   {className}
                 </option>
               ))}
+=======
+                <option value="" disabled>
+                  Chọn lớp
+                </option>
+                <option value="10a1">10A1</option>
+                <option value="10a2">10A2</option>
+                <option value="10a3">10A3</option>
+                <option value="10a4">10A4</option>
+                <option value="11a1">11A1</option>
+                <option value="11a2">11A2</option>
+                <option value="11a3">11A3</option>
+                <option value="12a1">12A1</option>
+                <option value="12a2">12A2</option>
+>>>>>>> origin/master
               </select>
             </div>
             <div className="form-input-item-half">
@@ -221,12 +252,27 @@ function LookUpStudents() {
                 value={classInfo.subject}
                 onChange={handleClassInfoChange}
               >
+<<<<<<< HEAD
                 <option value="" disabled>Chọn môn</option>
               {subjectList.map((subjectName, index) => (
                 <option key={index} value={subjectName}>
                   {subjectName}
                 </option>
               ))}
+=======
+                <option value="" disabled>
+                  Chọn môn
+                </option>
+                <option value="toan">Toán</option>
+                <option value="ly">Lý</option>
+                <option value="hoa">Hóa</option>
+                <option value="sinh">Sinh</option>
+                <option value="su">Sử</option>
+                <option value="dia">Địa</option>
+                <option value="van">Văn</option>
+                <option value="daoduc">Đạo Đức</option>
+                <option value="theduc">Thể Dục</option>
+>>>>>>> origin/master
               </select>
             </div>
           </div>
@@ -348,6 +394,7 @@ function LookUpStudents() {
                 </tr>
               </thead>
               <tbody>
+<<<<<<< HEAD
               {students.map((student, index) => {
     // Chuyển đổi tên môn học thành không dấu và viết liền
     let subjectKey = classInfo.subject
@@ -375,6 +422,25 @@ function LookUpStudents() {
       </tr>
     );
   })}
+=======
+                {students.map((student, index) => {
+                  const score15FieldName = `${classInfo.subject}_15p_${classInfo.semester}`;
+                  const score1tietFieldName = `${classInfo.subject}_1t_${classInfo.semester}`;
+                  const score15 = student[score15FieldName] || ""; // Lấy điểm 15'
+                  const score1tiet = student[score1tietFieldName] || ""; // Lấy điểm 1 tiết
+                  const average = (parseFloat(score15) + parseFloat(score1tiet)) / 2 || ""; // Tính điểm trung bình
+
+                  return (
+                    <tr key={index}>
+                      <td className="tg-wk8r">{index + 1}</td>
+                      <td className="tg-oe15">{student.name}</td>
+                      <td className="tg-oe15">{score15}</td>
+                      <td className="tg-oe15">{score1tiet}</td>
+                      <td className="tg-oe15">{average}</td>
+                    </tr>
+                  );
+                })}
+>>>>>>> origin/master
               </tbody>
             </table>
           </div>

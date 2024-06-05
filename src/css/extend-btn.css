@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .btn-choose {
   width: 20px;
   height: 140px;
@@ -6,4 +7,14 @@
 .btn-center {
   display: flex;
   justify-content: center;
+=======
+.btn-choose {
+  width: 40%;
+  height: 80px;
+}
+
+.btn-center {
+  display: flex;
+  justify-content: center;
+>>>>>>> origin/master
 }
