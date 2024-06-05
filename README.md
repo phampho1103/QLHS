@@ -8,13 +8,22 @@
 <h1 align="center"><b>NHẬP MÔN CÔNG NGHỆ PHẦN MỀM</b></h1>
 
 # Thành viên nhóm
-| STT    | MSSV          | Họ và Tên              |Chức Vụ    | Github                                                  | Email                   |
-| ------ |:-------------:| ----------------------:|----------:|--------------------------------------------------------:|-------------------------:
-| 1      | 19521676      | Đỗ Trọng Khánh         |Nhóm trưởng|[trong-khanh-1109](https://github.com/trong-khanh-1109)  |19521676@gm.uit.edu.vn   |
+| STT    | MSSV          | Họ và Tên              |Chức Vụ    |Email                   |
+| ------ |:-------------:| ----------------------:|----------:||-------------------------:
+| 1      | 21522456      | Phạm Phố               |Nhóm trưởng|19521676@gm.uit.edu.vn   |
 | 2      | 19521383      | Võ Phạm Duy Đức        |Thành viên |[ducducqn123](https://github.com/ducducqn123)            |19521383@gm.uit.edu.vn   |
 | 3      | 19521326      | Trịnh Công Danh        |Thành viên |[danhtrinh15092001](https://github.com/danhtrinh15092001)|19521326@gm.uit.edu.vn   |
 | 4      | 19521482      | Trần Vĩ Hào            |Thành viên |[hlhkudo](https://github.com/hlhkudo)                    |19521482@gm.uit.edu.vn   |
 | 5      | 19521270      | Trương Quốc Bình       |Thành viên |[noeffortnomoney](https://github.com/noeffortnomoney)    |19521270@gm.uit.edu.vn   |
+
+Danh sách thành viên nhóm 16:
+1.	Nguyễn Văn Hoành	-	20521353
+2.	Nguyễn Ngọc Sinh	-	20521835
+3.	Phạm Phố	-	21522456
+4.	Nguyễn Hoàng Phúc	-	21522473
+5.	Nguyễn Minh Kha	-	22520599
+![image](https://github.com/phampho1103/QLHS/assets/147121631/dd802d11-8f80-4901-a0cc-20544f3d6850)
+
 
 # GIỚI THIỆU MÔN HỌC
 * **Tên môn học:** Nhập môn công nghệ phần mềm
