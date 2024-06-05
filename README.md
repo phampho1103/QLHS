@@ -29,4 +29,4 @@
 * **Đề tài:** Phần mềm quản lý học sinh
 
 <!-- Footer -->
-<p align='center'>Copyright © 2021 - Phạm Phố</p>
+<p align='center'>Copyright © 2024 - Phạm Phố</p>
