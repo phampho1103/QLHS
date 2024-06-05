@@ -1,0 +1,212 @@
+/* Form */
+.form-title {
+  font-size: 2.2rem;
+  color: black;
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 20px;
+  width: 100%;
+}
+.form-input-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.form-filter {
+  border: 1px solid #ccc;
+  padding: 20px 15px;
+  border-radius: 5px;
+}
+.form-filter .form-title {
+  font-size: 3rem;
+}
+.icon-search {
+  position: absolute;
+  right: 15px;
+  top: 5px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+/* Input Item Quarter */
+.form-input-item-quarter {
+  display: flex;
+  align-items: center;
+  width: calc(25% - 50px);
+}
+.form-input-item-quarter input,
+.form-input-item-quarter select {
+  width: inherit;
+  font-size: 1.8rem;
+  flex: 1;
+  height: 50px;
+  display: inline-block;
+  border-radius: 7px;
+  outline: none;
+  border: 1px solid var(--color-border-input);
+  padding: 5px 10px;
+  margin-left: 10px;
+}
+.form-input-item-quarter label {
+  font-size: 20px;
+  min-width: 50px;
+  display: inline-block;
+}
+/* Input Item Half */
+.form-input-group-half {
+  display: flex;
+  flex-direction: column;
+  /* width: calc(50% - 60px); */
+
+  /* sửa chỗ này */
+}
+.form-input-item-half {
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+}
+.form-input-item-half input,
+.form-input-item-half select,
+textarea {
+  font-size: 2rem;
+  flex: 1;
+  height: 50px;
+  display: inline-block;
+  border-radius: 7px;
+  outline: none;
+  border: 1px solid var(--color-border-input);
+  padding: 5px 10px;
+}
+.form-input-item-half label {
+  font-size: 20px;
+  min-width: 150px;
+  display: inline-block;
+}
+/* Input Item full*/
+.form-input-item-full {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  position: relative;
+  margin-bottom: 15px;
+}
+.form-input-item-full label {
+  font-size: 20px;
+  min-width: 150px;
+  display: inline-block;
+}
+.form-input-item-full input,
+.form-input-item-full select {
+  font-size: 20px;
+  flex: 1;
+  height: 50px;
+  display: inline-block;
+  border-radius: 7px;
+  outline: none;
+  border: 1px solid var(--color-border-input);
+  padding: 0 20px;
+}
+.debt {
+  justify-content: flex-end;
+}
+.debt label {
+  font-weight: 500;
+  text-align: left;
+  min-width: 164px;
+}
+/* Form trang Quy định */
+.content-sm .form-input-item-full label {
+  font-size: 20px;
+  min-width: 220px;
+  display: inline-block;
+}
+.content-sm.content-body {
+  display: flex;
+  flex-direction: column;
+  width: 1111px;
+  margin: auto;
+}
+.content-sm form {
+  width: 960px;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-sm form button {
+  align-self: flex-end;
+}
+
+.form-post {
+  background-color: rgb(57 71 94 / 54%);
+  position: fixed;
+  top: 0%;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  display: flex;
+  flex-direction: column;
+}
+.form-post .form-wrap {
+  border: none;
+  padding: 35px 50px;
+  width: 1080px;
+  background-color: white;
+  margin: auto;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  display: flex;
+  border-radius: 10px;
+}
+.form-post.hidden {
+  display: none;
+}
+.form-post label {
+  min-width: 140px;
+  font-size: 18px;
+}
+.form-post input,
+.form-post select {
+  font-size: 18px;
+  padding: 2px 8px;
+  outline: none;
+  border-radius: 8px;
+}
+.form-post .form-input-group-half {
+  width: calc(50% - 40px);
+}
+.form-post .form-title {
+  font-size: 28px;
+  margin-bottom: 25px;
+}
+
+.form-post .btn {
+  height: 45px;
+  min-width: 120px;
+  padding: 0;
+  font-size: 18px;
+}
+.form-post .btn-group {
+  margin-top: 30px;
+}
+
+.form-input-field {
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+}
+.form-input-field input,
+.form-input-field select {
+  font-size: 2rem;
+  flex: 1;
+  height: 50px;
+  display: inline-block;
+  border-radius: 7px;
+  outline: none;
+  border: 1px solid var(--color-border-input);
+  padding: 5px 10px;
+  width: 100%;
+}
+
+.result-table {
+  border: 1px solid black;
+}
